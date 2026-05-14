@@ -1,0 +1,269 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>制作U盘启动盘重装Windows系统 | 零一空间</title><meta name="author" content="不死的小强"><meta name="copyright" content="不死的小强"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="背景 之前有一台闲置的电脑，安装的是Windows 10 企业版2016长期服务版，最近在整理机器的时候突然间不能上网，主机是外置网卡，查了相关资料，很多是说系统原生bug，这个系统版本已经停止维护，很可能修好一个问题还会引入其他问题，所以决定重新安装系统  我的系统是Win10 企业版 2016 长期服务版（LTSC），而且未激活 所以不能免费升级到Win11或者换装Win10&#x2F;Win">
+<meta property="og:type" content="article">
+<meta property="og:title" content="制作U盘启动盘重装Windows系统">
+<meta property="og:url" content="https://duanjianmin.online/posts/8557e040/index.html">
+<meta property="og:site_name" content="零一空间">
+<meta property="og:description" content="背景 之前有一台闲置的电脑，安装的是Windows 10 企业版2016长期服务版，最近在整理机器的时候突然间不能上网，主机是外置网卡，查了相关资料，很多是说系统原生bug，这个系统版本已经停止维护，很可能修好一个问题还会引入其他问题，所以决定重新安装系统  我的系统是Win10 企业版 2016 长期服务版（LTSC），而且未激活 所以不能免费升级到Win11或者换装Win10&#x2F;Win">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://duanjianmin.online/images/avator_xiaoqiang.png">
+<meta property="article:published_time" content="2026-05-06T09:22:32.000Z">
+<meta property="article:modified_time" content="2026-05-14T06:05:31.553Z">
+<meta property="article:author" content="不死的小强">
+<meta property="article:tag" content="工具使用">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://duanjianmin.online/images/avator_xiaoqiang.png"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "制作U盘启动盘重装Windows系统",
+  "url": "https://duanjianmin.online/posts/8557e040/",
+  "image": "https://duanjianmin.online/images/avator_xiaoqiang.png",
+  "datePublished": "2026-05-06T09:22:32.000Z",
+  "dateModified": "2026-05-14T06:05:31.553Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "不死的小强",
+      "url": "https://duanjianmin.online"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://duanjianmin.online/posts/8557e040/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//static.cloudflareinsights.com"/><link rel="stylesheet" href="/css/index.css?v=5.5.4"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.1.0/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script defer="defer" data-pjax="data-pjax" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon="{&quot;token&quot;: &quot;f76a9b052c994a27928a387d7c854d92&quot;}"></script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.13.0/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '制作U盘启动盘重装Windows系统',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><style>#site-title { color: #00f5ff !important; text-shadow: none !important; font-size: 2.2em !important; font-weight: 900 !important; } @media (min-width: 768px) { #site-title { font-size: 3.8em !important; } } #site-subtitle { color: #ffe000 !important; text-shadow: none !important; font-size: 1.3em !important; font-weight: 600 !important; } @media (min-width: 768px) { #site-subtitle { font-size: 1.9em !important; } } #site-subtitle .typed-cursor { color: #ffe000 !important; }</style><meta name="generator" content="Hexo 8.1.1"></head><body><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(/images/indexbg.png);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">零一空间</span></a><a class="nav-page-title" href="/"><span class="site-name">制作U盘启动盘重装Windows系统</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  返回首页</span></span></a></span><div id="menus"></div></nav><div id="post-info"><h1 class="post-title">制作U盘启动盘重装Windows系统</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2026-05-06T09:22:32.000Z" title="发表于 2026-05-06 09:22:32">2026-05-06</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-05-14T06:05:31.553Z" title="更新于 2026-05-14 06:05:31">2026-05-14</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E6%95%99%E7%A8%8B/">教程</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="twikoo_visitors"><i class="fa-solid fa-spinner fa-spin"></i></span></span><span class="post-meta-separator">|</span><span class="post-meta-commentcount"><i class="far fa-comments fa-fw post-meta-icon"></i><span class="post-meta-label">评论数:</span><a href="/posts/8557e040/#post-comment"><span id="twikoo-count"><i class="fa-solid fa-spinner fa-spin"></i></span></a></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><ul>
+<li><p>之前有一台闲置的电脑，安装的是Windows 10 企业版2016长期服务版，最近在整理机器的时候突然间<strong>不能上网</strong>，主机是外置网卡，查了相关资料，很多是说系统原生bug，这个系统版本已经停止维护，很可能修好一个问题还会引入其他问题，所以决定重新安装系统</p>
+</li>
+<li><p>我的系统是<strong style="color:red;">Win10 企业版 2016 长期服务版（LTSC），而且未激活</strong> 所以不能免费升级到Win11或者换装Win10&#x2F;Win11家庭版，这些都需要收费，也就是说我只能重装同版本 <strong>Win10 LTSC</strong></p>
+</li>
+<li><p>简单讲 <strong>主机不能上网</strong> &amp;&amp; <strong>安装同版本Win10 LTSC</strong></p>
+</li>
+</ul>
+<h2 id="方案"><a href="#方案" class="headerlink" title="方案"></a>方案</h2><p>制作U盘启动盘重新安装系统</p>
+<h3 id="1-准备工作"><a href="#1-准备工作" class="headerlink" title="1. 准备工作"></a>1. 准备工作</h3><ul>
+<li>一台能上网的设备（手机或其他电脑）</li>
+<li>一个 8GB 以上的U盘（U盘里的数据会被清空，提前备份）</li>
+<li>问题机上重要文件提前拷贝到U盘或移动硬盘</li>
+</ul>
+<h3 id="2-下载-Win10-LTSC-2021-镜像"><a href="#2-下载-Win10-LTSC-2021-镜像" class="headerlink" title="2. 下载 Win10 LTSC 2021 镜像"></a>2. 下载 Win10 LTSC 2021 镜像</h3><p>在能上网的设备上，去这个地址下载：<br><a target="_blank" rel="noopener" href="https://next.itellyou.cn/Original/#cbp=Product?ID=f905b2d9-11e7-4ee3-8b52-407a8befe8d1">https://next.itellyou.cn/Original/#cbp=Product?ID=f905b2d9-11e7-4ee3-8b52-407a8befe8d1</a></p>
+<ul>
+<li>注册&#x2F;登录账号</li>
+<li>左侧选 操作系统 → Windows 10 LTSC</li>
+<li>找 Windows 10 Enterprise LTSC 2021</li>
+<li>选 简体中文 64位，复制磁力链接用迅雷下载</li>
+<li>下载得到一个 .iso 文件（约4.7GB）<br><img src="/images/rebootFromUDisk/iso.png" alt="下载截图"></li>
+</ul>
+<h3 id="3-制作U盘启动盘"><a href="#3-制作U盘启动盘" class="headerlink" title="3. 制作U盘启动盘"></a>3. 制作U盘启动盘</h3><p>下载制作工具 Rufus（免费、无广告）：<a target="_blank" rel="noopener" href="https://rufus.ie/">https://rufus.ie</a><br>下载后打开 Rufus：</p>
+<ul>
+<li>设备 → 选择你的U盘</li>
+<li>引导类型 → 点”选择”，找到刚下载的 .iso 文件</li>
+<li>分区类型 → 选 GPT<br>  怎么确定是选GPT还是MBR  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">在问题机上需要确认用 UEFI 还是 Legacy 启动，管理员CMD执行：</span><br><span class="line">cmdbcdedit | findstr &quot;path&quot;</span><br><span class="line">显示 \EFI\... → 是 UEFI，Rufus选GPT</span><br><span class="line">显示 \windows\... → 是 Legacy，Rufus选MBR</span><br></pre></td></tr></table></figure></li>
+<li>目标系统 → 会自动填写</li>
+<li>点击 开始 → 弹窗选 以ISO镜像模式写入<br>等待完成（约5-10分钟）<br><img src="/images/rebootFromUDisk/rufus.png" alt="rufus"></li>
+</ul>
+<h3 id="4-从U盘启动"><a href="#4-从U盘启动" class="headerlink" title="4. 从U盘启动"></a>4. 从U盘启动</h3><ul>
+<li>关闭问题机</li>
+<li>插入U盘</li>
+<li>开机时连按 F11（部分主板是F8、F11、Del，看开机画面提示）</li>
+<li>进入启动菜单，选择你的U盘</li>
+<li>进入 Windows 安装界面</li>
+</ul>
+<p><img src="/images/rebootFromUDisk/install.png" alt="选择启动方式"></p>
+<h3 id="5-安装系统"><a href="#5-安装系统" class="headerlink" title="5. 安装系统"></a>5. 安装系统</h3><ul>
+<li>语言选中文，点下一步</li>
+<li>点现在安装</li>
+<li>激活码页面点 “我没有产品密钥”</li>
+<li>版本选 Windows 10 Enterprise LTSC</li>
+<li>接受许可条款</li>
+<li>安装类型选 自定义：仅安装 Windows（高级）</li>
+<li>选择安装到哪个分区（通常是最大的那个，一般标着”主分区”）</li>
+<li>点下一步开始安装，等待约20-30分钟自动重启</li>
+</ul>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://duanjianmin.online">不死的小强</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://duanjianmin.online/posts/8557e040/">https://duanjianmin.online/posts/8557e040/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://duanjianmin.online" target="_blank">零一空间</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8/">工具使用</a></div><div class="post-share"><div class="social-share" data-image="/images/avator_xiaoqiang.png" data-sites="facebook,x,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/posts/72b55d36/" title="Wan2.25B-GGUF&amp;&amp;ComfyUI本地搭建"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">Wan2.25B-GGUF&&ComfyUI本地搭建</div></div><div class="info-2"><div class="info-item-1">Wan2.2 TI2V 5B 本地运行指南（Windows + ComfyUI + GGUF 量化版） 适用环境：Windows 11，NVIDIA RTX 5080（16GB VRAM），Python 3.10 本指南使用 ComfyUI + GGUF 量化模型方案，无需 24GB 显存，16GB 可流畅运行。249帧（约10秒）视频约需 9分钟推理时间。   硬件要求   组件 最低 推荐（本指南验证配置）    GPU NVIDIA 16GB VRAM RTX 5080 16GB   RAM 32GB 64GB   磁盘 50GB 可用空间 SSD 100GB+   CUDA 12.4+ 12.8    第一步：安装 NVIDIA 驱动和 CUDA Toolkit1.1 安装显卡驱动RTX 5080（Blackwell&#x2F;GB203 架构）需要驱动版本 ≥ 572.83。  前往 NVIDIA 官网下载驱动：https://www.nvidia.com/drivers 选择：GeForce → RTX 50 Series → RTX 5080 → Windows 1...</div></div></div></a><a class="pagination-related" href="/posts/d3370229/" title="从零开始搭建博客系统"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">从零开始搭建博客系统</div></div><div class="info-2"><div class="info-item-1">完整生产级方案架构：123456789阿里云域名↓Cloudflare（DNS + CDN + HTTPS）↓GitHub Pages（托管博客）↓Hexo（博客系统）↓GitHub Actions（自动部署）  这是目前个人博客最舒服、最稳定、几乎零成本的方案。  第一步：安装环境先安装： 1. Node.js（LTS版）去 Node.js 官网安装最新版 LTS： 建议： 1Node.js 20+  安装完成后检查： 12node -vnpm -v   2. Git安装 Git 检查： 1git --version   3. 安装 Hexo1npm install -g hexo-cli  检查： 1hexo -v   第二步：创建博客项目123hexo init myblogcd myblognpm install  本地启动： 1hexo s  浏览器打开： 1http://localhost:4000  你就能看到博客了。  第三步：创建 GitHub 仓库去 GitHub 创建两个仓库： 仓库1（源码仓库）1myblog  仓库2（部署仓库）必须叫： 1你的用户名.g...</div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/posts/d3370229/" title="从零开始搭建博客系统"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-04-24</div><div class="info-item-2">从零开始搭建博客系统</div></div><div class="info-2"><div class="info-item-1">完整生产级方案架构：123456789阿里云域名↓Cloudflare（DNS + CDN + HTTPS）↓GitHub Pages（托管博客）↓Hexo（博客系统）↓GitHub Actions（自动部署）  这是目前个人博客最舒服、最稳定、几乎零成本的方案。  第一步：安装环境先安装： 1. Node.js（LTS版）去 Node.js 官网安装最新版 LTS： 建议： 1Node.js 20+  安装完成后检查： 12node -vnpm -v   2. Git安装 Git 检查： 1git --version   3. 安装 Hexo1npm install -g hexo-cli  检查： 1hexo -v   第二步：创建博客项目123hexo init myblogcd myblognpm install  本地启动： 1hexo s  浏览器打开： 1http://localhost:4000  你就能看到博客了。  第三步：创建 GitHub 仓库去 GitHub 创建两个仓库： 仓库1（源码仓库）1myblog  仓库2（部署仓库）必须叫： 1你的用户名.g...</div></div></div></a></div></div><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="twikoo-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/images/avator_xiaoqiang.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">不死的小强</div><div class="author-info-description"></div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">4</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">3</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">2</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/duanjianmin"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">记录技术，分享成长，欢迎交流，一起进步。</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%83%8C%E6%99%AF"><span class="toc-number">1.</span> <span class="toc-text">背景</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%96%B9%E6%A1%88"><span class="toc-number">2.</span> <span class="toc-text">方案</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E5%87%86%E5%A4%87%E5%B7%A5%E4%BD%9C"><span class="toc-number">2.1.</span> <span class="toc-text">1. 准备工作</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E4%B8%8B%E8%BD%BD-Win10-LTSC-2021-%E9%95%9C%E5%83%8F"><span class="toc-number">2.2.</span> <span class="toc-text">2. 下载 Win10 LTSC 2021 镜像</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E5%88%B6%E4%BD%9CU%E7%9B%98%E5%90%AF%E5%8A%A8%E7%9B%98"><span class="toc-number">2.3.</span> <span class="toc-text">3. 制作U盘启动盘</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-%E4%BB%8EU%E7%9B%98%E5%90%AF%E5%8A%A8"><span class="toc-number">2.4.</span> <span class="toc-text">4. 从U盘启动</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-%E5%AE%89%E8%A3%85%E7%B3%BB%E7%BB%9F"><span class="toc-number">2.5.</span> <span class="toc-text">5. 安装系统</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/posts/a921ad22/" title="一、生成式人工智能基本原理">一、生成式人工智能基本原理</a><time datetime="2026-05-13T15:12:38.000Z" title="发表于 2026-05-13 15:12:38">2026-05-13</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/posts/72b55d36/" title="Wan2.25B-GGUF&amp;&amp;ComfyUI本地搭建">Wan2.25B-GGUF&amp;&amp;ComfyUI本地搭建</a><time datetime="2026-05-07T14:51:22.000Z" title="发表于 2026-05-07 14:51:22">2026-05-07</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/posts/8557e040/" title="制作U盘启动盘重装Windows系统">制作U盘启动盘重装Windows系统</a><time datetime="2026-05-06T09:22:32.000Z" title="发表于 2026-05-06 09:22:32">2026-05-06</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/posts/d3370229/" title="从零开始搭建博客系统">从零开始搭建博客系统</a><time datetime="2026-04-24T15:30:00.000Z" title="发表于 2026-04-24 15:30:00">2026-04-24</time></div></div></div></div></div></div></main><footer id="footer"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2025 - 2026 By 不死的小强</span><span class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 8.1.1</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.5.4</a></span></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="前往评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=5.5.4"></script><script src="/js/main.js?v=5.5.4"></script><div class="js-pjax"><script>(() => {
+  const isShuoshuo = GLOBAL_CONFIG_SITE.pageType === 'shuoshuo'
+  const option = null
+
+  const getCount = () => {
+    const countELement = document.getElementById('twikoo-count')
+    if(!countELement) return
+    twikoo.getCommentsCount({
+      envId: 'https://vercelcomment-nu.vercel.app',
+      region: '',
+      urls: [window.location.pathname],
+      includeReply: false
+    }).then(res => {
+      countELement.textContent = res[0].count
+    }).catch(err => {
+      console.error(err)
+    })
+  }
+
+  const init = (el = document, path = location.pathname) => {
+    twikoo.init({
+      el: el.querySelector('#twikoo-wrap'),
+      envId: 'https://vercelcomment-nu.vercel.app',
+      region: '',
+      onCommentLoaded: () => {
+        btf.loadLightbox(document.querySelectorAll('#twikoo .tk-content img:not(.tk-owo-emotion)'))
+      },
+      ...option,
+      path: isShuoshuo ? path : (option && option.path) || path
+    })
+
+    GLOBAL_CONFIG_SITE.pageType === 'post' && getCount()
+
+    isShuoshuo && (window.shuoshuoComment.destroyTwikoo = () => {
+      if (el.children.length) {
+        el.innerHTML = ''
+        el.classList.add('no-comment')
+      }
+    })
+  }
+
+  const loadTwikoo = (el, path) => {
+    if (typeof twikoo === 'object') setTimeout(() => init(el, path), 0)
+    else btf.getScript('https://cdn.jsdelivr.net/npm/twikoo@1.6.44/dist/twikoo.all.min.js').then(() => init(el, path))
+  }
+
+  if (isShuoshuo) {
+    'Twikoo' === 'Twikoo'
+      ? window.shuoshuoComment = { loadComment: loadTwikoo }
+      : window.loadOtherComment = loadTwikoo
+    return
+  }
+
+  if ('Twikoo' === 'Twikoo' || !false) {
+    if (false) btf.loadComment(document.getElementById('twikoo-wrap'), loadTwikoo)
+    else loadTwikoo()
+  } else {
+    window.loadOtherComment = loadTwikoo
+  }
+})()</script></div></div></body></html>
